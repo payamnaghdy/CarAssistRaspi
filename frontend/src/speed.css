@@ -1,0 +1,10 @@
+.speedSign {
+    position: relative;
+    top:0.00001vw;
+    left: 10vw;
+    width: 20vw;
+    height: 20vw;
+}
+body{
+    background-color: rgb(240, 240, 240);
+}

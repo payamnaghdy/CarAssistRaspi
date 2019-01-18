@@ -3,8 +3,8 @@ import {BrowserRouter, Route,Switch,Router} from 'react-router-dom'
 import ReactDOM from 'react-dom';
 import './App.css';
 import Header from './Header'
-import SpComponent from './Speed'
-import Map from './map'
+import Speed from './Speed'
+import MyMap from './map'
 const  newRoute = () => {
   return(
       <div>salam
@@ -18,11 +18,12 @@ class App extends Component {
             <div>
             <BrowserRouter>
             <Switch>
-            <Route path="/speed" component= {SpComponent} />
-            <Route path="/map" component= {Map} />
+            <Route path="/speed" component= {Speed} />
+            <Route path="/Map" component= {MyMap} />
             </Switch>
             </BrowserRouter>
             </div>
+            
         );
     }
   }
