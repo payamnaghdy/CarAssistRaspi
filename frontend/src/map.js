@@ -3,62 +3,26 @@ import ReactDOM from 'react-dom'
 import Header from './Header'
 import './menu.css'
 import Menu from './Menu'
-import { Map, TileLayer} from 'react-leaflet'
+import Map from 'pigeon-maps'
 
-type State = {
-  animate: boolean,
-  latlng: {
-    lat: number,
-    lng: number,
-  },
-}
-
-export default class MyMap extends Component{
-  state = {
-    animate: false,
-    latlng: {
-      lat: 51.505,
-      lng: -0.09,
-    },
-  }
-
-  handleClick = (e: Object) => {
-    this.setState({
-      latlng: e.latlng,
-    })
-  }
-
-  toggleAnimate = () => {
-    this.setState({
-      animate: !this.state.animate,
-    })
-  }
-
+class MyMap extends Component { 
   render() {
-    return (
-      <div style={{ textAlign: 'center' }}>
-        <label>
-          <input
-            checked={this.state.animate}
-            onChange={this.toggleAnimate}
-            type="checkbox"
-          />
-          Animate panning
-        </label>
-        <Map
-          animate={this.state.animate}
-          center={this.state.latlng}
-          length={4}
-          onClick={this.handleClick}
-          zoom={13}>
-          <TileLayer
-            attribution='&amp;copy <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
-            url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-          />
+        return (
+          <div>
+             < Header text="Map"/>
+            <Menu />
+          <Map center={[32.6546, 51.6680]} zoom={12} width={document.innerWidth} height={400}>
+          {/* <Marker anchor={[50.874, 4.6947]} payload={1} onClick={({ event, anchor, payload }) => {}} /> */}
+      
+          {/* <Overlay anchor={[50.879, 4.6997]} offset={[120, 79]}>
+            <img src='pigeon.jpg' width={240} height={158} alt='' />
+          </Overlay> */}
         </Map>
-      </div>
-    )
+        </div>
+        );
+    }
   }
-}
 
-  
+
+
+export default MyMap;
