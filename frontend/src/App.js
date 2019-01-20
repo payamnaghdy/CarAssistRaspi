@@ -5,6 +5,7 @@ import './App.css';
 import Header from './Header'
 import Speed from './Speed'
 import MyMap from './map'
+import Demo from './Location'
 const  newRoute = () => {
   return(
       <div>salam
@@ -20,6 +21,7 @@ class App extends Component {
             <Switch>
             <Route path="/speed" component= {Speed} />
             <Route path="/Map" component= {MyMap} />
+            <Route path="/Geo" component= {Demo} />
             </Switch>
             </BrowserRouter>
             </div>

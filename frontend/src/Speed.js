@@ -33,6 +33,7 @@ class Speed extends Component {
          }
        ]
      })
+     //console.log(location.coords.latitude);
      var presented_sign;
      if(this.state.data[0].Value > 50){
        presented_sign = "1.png"
