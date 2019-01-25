@@ -20,6 +20,8 @@ interface IDemoProps {
 
 class MyMap extends Component<IDemoProps & GeolocatedProps> { 
   state = {
+      username:'',
+      password:'',
       token :'',
       token_is_available:false,
       data: [],
@@ -55,6 +57,7 @@ class MyMap extends Component<IDemoProps & GeolocatedProps> {
       })
   }
   componentDidMount(){
+    if(this.state.token_is_available){
     var endPoint = 'https://api.opencagedata.com/geocode/v1/json?key=ceaef58b33f442e790f75f602065215a&q=35.6961%2C51.4231&pretty=1';
     axios.get(endPoint)
     .then(res=>{
@@ -79,27 +82,31 @@ class MyMap extends Component<IDemoProps & GeolocatedProps> {
       }
       ReactDOM.findDOMNode(this.refs.nothing).innerHTML = result;
     });
-   // setInterval(this.fetchData, 5000);
+  
+        setInterval(this.fetchData, 5000);
+    }
   }
-  loginHandler(event){
-      console.log(event);
+  loginHandler(){
+      console.log('salam');
       var bodyFormData = new FormData();
-    bodyFormData.set('username', 'car');
-    bodyFormData.append('password', 'car123456'); 
+    bodyFormData.set('username', this.state.username);
+    bodyFormData.append('password', this.state.password); 
     axios({
       method: 'post',
       url: 'http://127.0.0.1:8000/api-token-auth/',
       data: bodyFormData,
       config: { headers: {'Content-Type': 'multipart/form-data' }}
       })
-      .then(function (response) {
+      .then( (response) => {
           //handle success
-  
-          this.setState({token:response.data.token});
-          this.setState({token_is_available:true});
-          console.log(this.state.token);
+          this.setState({token:response.data.token,
+            token_is_available:true,
+            username:'',
+            password:'',
+          });
+          console.log(this.state.token_is_available);
       })
-      .catch(function (response) {
+      .catch((response) => {
           //handle error
           console.log(response);
       });
@@ -137,7 +144,7 @@ var form =( <div>
          onChange = {(event,newValue) => this.setState({password:newValue})}
          />
        <br/>
-       <RaisedButton label="Submit" primary={true} color='red' onClick={(event) => this.loginHandler(event)}/>
+       <RaisedButton label="Submit" primary={true} color='red' onClick={this.loginHandler.bind(this)}/>
    </div>
    </MuiThemeProvider>
 </div>
