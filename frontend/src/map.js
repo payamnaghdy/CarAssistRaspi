@@ -9,6 +9,10 @@ import PropTypes from "prop-types";
 import { GeolocatedProps, geolocated } from 'react-geolocated';
 import axios from 'axios';
 import react from 'pigeon-marker';
+import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
+import AppBar from 'material-ui/AppBar';
+import RaisedButton from 'material-ui/RaisedButton';
+import TextField from 'material-ui/TextField';
  
 interface IDemoProps {
   label: string;
@@ -16,6 +20,8 @@ interface IDemoProps {
 
 class MyMap extends Component<IDemoProps & GeolocatedProps> { 
   state = {
+      token :'',
+      token_is_available:false,
       data: [],
       loaded: false,
       placeholder: "Loading..."
@@ -73,24 +79,77 @@ class MyMap extends Component<IDemoProps & GeolocatedProps> {
       }
       ReactDOM.findDOMNode(this.refs.nothing).innerHTML = result;
     });
-    setInterval(this.fetchData, 5000);
+   // setInterval(this.fetchData, 5000);
+  }
+  loginHandler(event){
+      console.log(event);
+      var bodyFormData = new FormData();
+    bodyFormData.set('username', 'car');
+    bodyFormData.append('password', 'car123456'); 
+    axios({
+      method: 'post',
+      url: 'http://127.0.0.1:8000/api-token-auth/',
+      data: bodyFormData,
+      config: { headers: {'Content-Type': 'multipart/form-data' }}
+      })
+      .then(function (response) {
+          //handle success
+  
+          this.setState({token:response.data.token});
+          this.setState({token_is_available:true});
+          console.log(this.state.token);
+      })
+      .catch(function (response) {
+          //handle error
+          console.log(response);
+      });
+
   }
   render() {
-        return (
-          <div>
-             < Header text="Map"/>
-            <Menu />
-          <Map center={[this.props.coords && this.props.coords.latitude, this.props.coords && this.props.coords.longitude]} zoom={15} width={document.innerWidth} height={400}>
-          <Marker anchor={[this.props.coords && this.props.coords.latitude, this.props.coords && this.props.coords.longitude]} payload={1} onClick={({ event, anchor, payload }) => {}} />
-        </Map>
-        <div>
-        label: {this.props.label}
-        lattitude: {this.props.coords && this.props.coords.latitude}
-        longitude: {this.props.coords && this.props.coords.longitude}
-      </div>
-      <div ref="nothing">nothing</div>
-        </div>
-        );
+    var map = ( <div>
+    < Header text="Map"/>
+   <Menu />
+ <Map center={[this.props.coords && this.props.coords.latitude, this.props.coords && this.props.coords.longitude]} zoom={15} width={document.innerWidth} height={400}>
+ <Marker anchor={[this.props.coords && this.props.coords.latitude, this.props.coords && this.props.coords.longitude]} payload={1} onClick={({ event, anchor, payload }) => {}} />
+</Map>
+<div>
+label: {this.props.label}
+lattitude: {this.props.coords && this.props.coords.latitude}
+longitude: {this.props.coords && this.props.coords.longitude}
+</div>
+<div ref="nothing">nothing</div>
+</div>);
+var form =( <div>
+  <MuiThemeProvider>
+    <div>
+      <Header text='Login'/>
+      <Menu />
+     <TextField
+       hintText="Enter your Username"
+       floatingLabelText="Username"
+       onChange = {(event,newValue) => this.setState({username:newValue})}
+       />
+     <br/>
+       <TextField
+         type="password"
+         hintText="Enter your Password"
+         floatingLabelText="Password"
+         onChange = {(event,newValue) => this.setState({password:newValue})}
+         />
+       <br/>
+       <RaisedButton label="Submit" primary={true} color='red' onClick={(event) => this.loginHandler(event)}/>
+   </div>
+   </MuiThemeProvider>
+</div>
+)
+
+      if (this.token_is_available){
+        return map;
+
+      }
+      else {
+        return form;
+      }
     }
   }
 
