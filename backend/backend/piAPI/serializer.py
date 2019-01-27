@@ -1,11 +1,16 @@
 from rest_framework import serializers
 from .models import Signs, CurrentPosition
+from rest_framework.validators import UniqueTogetherValidator
 
-class SignsSerializer(serializers.HyperlinkedModelSerializer):
+class SignsSerializer(serializers.ModelSerializer):
     class Meta:
         model=Signs
-        feilds='__all__'
-
+        fields = '__all__'
+        validators = [
+            UniqueTogetherValidator(
+                queryset=Signs.objects.all(),
+                fields=('name', 'country','county','neighbourhood','road' )
+            )]
 
 
 
