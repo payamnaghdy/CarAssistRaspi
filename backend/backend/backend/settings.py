@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'rest_framework',
     'rest_framework.authtoken',
     'piAPI',
+    'sslserver',
 
 ]
 
@@ -55,10 +56,12 @@ MIDDLEWARE = [
     'corsheaders.middleware.CorsMiddleware',
     'django.middleware.common.CommonMiddleware',
 ]
-CORS_ORIGIN_WHITELIST = (
-    'localhost:3000',
-    '127.0.0.1:9000'
-)
+# CORS_ORIGIN_WHITELIST = (
+#     'localhost:3000',
+#     '127.0.0.1:9000',
+#     '172.20'
+# )
+CORS_ORIGIN_ALLOW_ALL=True
 ROOT_URLCONF = 'backend.urls'
 
 TEMPLATES = [

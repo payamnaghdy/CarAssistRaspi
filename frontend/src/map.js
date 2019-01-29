@@ -30,8 +30,9 @@ class MyMap extends Component<IDemoProps & GeolocatedProps> {
     };
 
   fetchData() {
-    // var endPoint = 'https://api.opencagedata.com/geocode/v1/json?key=ceaef58b33f442e790f75f602065215a&q='+this.props.coords && this.props.coords.latitude +'%2C' +this.props.coords && this.props.coords.longitude + '&pretty=1';
-    var endPoint = 'https://api.opencagedata.com/geocode/v1/json?key=ceaef58b33f442e790f75f602065215a&q=35.6961%2C51.4231&pretty=1';
+    var endPoint = 'https://api.opencagedata.com/geocode/v1/json?key=ceaef58b33f442e790f75f602065215a&q='+(this.props.coords && this.props.coords.latitude) +"hehe" +(this.props.coords && this.props.coords.longitude) + '&pretty=1';
+    console.log(endPoint)
+    //var endPoint = 'https://api.opencagedata.com/geocode/v1/json?key=ceaef58b33f442e790f75f602065215a&q=35.6961%2C51.4231&pretty=1';
     var bodyFormData = new FormData();
     bodyFormData.set('id',1);
     bodyFormData.append('latitude', this.props.coords && this.props.coords.latitude);
@@ -80,16 +81,6 @@ class MyMap extends Component<IDemoProps & GeolocatedProps> {
             'Authorization': 'Token '+this.state.token
            }
         })
-
-      //  axios({
-      //   method: 'PUT',
-      //   url: 'http://127.0.0.1:8000/position/',
-      //   data: bodyFormData,
-      //   config: { headers: {'Content-Type': 'multipart/form-data',
-      //   'Authorization': 'Token '+this.state.token }}
-      //  }
-      // )
-        
       })
   }
   componentDidMount(){
@@ -134,7 +125,7 @@ class MyMap extends Component<IDemoProps & GeolocatedProps> {
     bodyFormData.append('password', this.state.password); 
     axios({
       method: 'post',
-      url: 'http://127.0.0.1:8000/api-token-auth/',
+      url: 'http://172.20.11.142:8000/api-token-auth/',
       data: bodyFormData,
       config: { headers: {'Content-Type': 'multipart/form-data' }}
       })

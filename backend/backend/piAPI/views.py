@@ -68,18 +68,19 @@ class FilteringView(generics.ListAPIView):
     http_method_names = ['get']
     queryset=Signs.objects.all()
     def get(self,request):
-        country = request.query_params['country']
+        qset=Signs.objects.all()
+        country = request.query_params.get('country',None)
         if country is not None :
-            qset=Signs.objects.all().filter(country=country)
-        county = request.query_params['country']
+            qset=qset.filter(country=country)
+        county = request.query_params.get('county',None)    
         if county is not None :
-            qset=Signs.objects.all().filter(county=county)
-        neighbourhood = request.query_params['neighbourhood']
+            qset=qset.filter(county=county)
+        neighbourhood = request.query_params.get('neighbourhood',None)
         if neighbourhood is not None :
-            neighbourhood=Signs.objects.all().filter(neighbourhood=neighbourhood)
-        road = request.query_params['road']
+            qset=qset.filter(neighbourhood=neighbourhood)
+        road = request.query_params.get('road',None)
         if road is not None :
-            road=Signs.objects.all().filter(road=road)
+            road=qset.filter(road=road)
 
         # county=request.query_params('county',None)
         # neighbourhood=request.query_params('neighbourhood',None)
