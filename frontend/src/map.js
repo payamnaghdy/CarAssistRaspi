@@ -32,7 +32,7 @@ class MyMap extends Component<IDemoProps & GeolocatedProps> {
   fetchData() {
     var endPoint = 'https://api.opencagedata.com/geocode/v1/json?key=1f0308877e194ce0966e5360bac03dd8&q='+(this.props.coords && this.props.coords.latitude) +"%2C" +(this.props.coords && this.props.coords.longitude) + '&pretty=1';
     console.log(endPoint)
-    var latitude=0,longitude=0,country='none',county='none',neighbourhood='none',road='none'
+    var latitude=(this.props.coords && this.props.coords.latitude),longitude=(this.props.coords && this.props.coords.longitude) ,country='none',county='none',neighbourhood='none',road='none'
     var bodyFormData = new FormData();
     bodyFormData.set('id',1);
     bodyFormData.append('latitude', this.props.coords && this.props.coords.latitude);
@@ -66,7 +66,7 @@ class MyMap extends Component<IDemoProps & GeolocatedProps> {
           result+=address.road;
           bodyFormData.append('road',address.road);
         }
-        ReactDOM.findDOMNode(this.refs.nothing).innerHTML = result;
+        
 
         fetch('http://127.0.0.1:8000/position/', {
           method: 'put',  
@@ -84,6 +84,13 @@ class MyMap extends Component<IDemoProps & GeolocatedProps> {
             'Content-Type': 'application/json',
             'Authorization': 'Token '+this.state.token
            }
+        })
+        var fetchurl='http://127.0.0.1:8000/signs/query?'+'country='+country+'&county='+county+'&neighbourhood='+neighbourhood+'&road='+road;
+        //var fetchurl='http://127.0.0.1:8000/signs/query';
+        axios.get(fetchurl).then(req=>{
+          console.log(req.data)
+
+          ReactDOM.findDOMNode(this.refs.nothing).innerHTML = JSON.stringify(req.data[0]);
         })
       })
   }
