@@ -22,7 +22,6 @@ class CurrentPositionView(generics.ListAPIView):
             serializer.save()
             return Response(serializer.data)
 
-
 class SignsView(generics.ListAPIView):
     serializer_class = SignsSerializer
     permission_classes= (IsAuthenticated,)
@@ -52,7 +51,7 @@ class ToUpdateSignsList(generics.ListAPIView):
 
 class SignsList(generics.ListAPIView):
     serializer_class = SignsSerializer
-    permission_classes= (IsAuthenticated,)
+    #permission_classes= (IsAuthenticated,)
     http_method_names = ['get','post']
     queryset=Signs.objects.all()
     def post(self, request, format=None):

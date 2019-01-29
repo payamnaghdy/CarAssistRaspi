@@ -30,9 +30,9 @@ class MyMap extends Component<IDemoProps & GeolocatedProps> {
     };
 
   fetchData() {
-    var endPoint = 'https://api.opencagedata.com/geocode/v1/json?key=ceaef58b33f442e790f75f602065215a&q='+(this.props.coords && this.props.coords.latitude) +"hehe" +(this.props.coords && this.props.coords.longitude) + '&pretty=1';
+    var endPoint = 'https://api.opencagedata.com/geocode/v1/json?key=1f0308877e194ce0966e5360bac03dd8&q='+(this.props.coords && this.props.coords.latitude) +"%2C" +(this.props.coords && this.props.coords.longitude) + '&pretty=1';
     console.log(endPoint)
-    //var endPoint = 'https://api.opencagedata.com/geocode/v1/json?key=ceaef58b33f442e790f75f602065215a&q=35.6961%2C51.4231&pretty=1';
+    var latitude=0,longitude=0,country='none',county='none',neighbourhood='none',road='none'
     var bodyFormData = new FormData();
     bodyFormData.set('id',1);
     bodyFormData.append('latitude', this.props.coords && this.props.coords.latitude);
@@ -44,21 +44,25 @@ class MyMap extends Component<IDemoProps & GeolocatedProps> {
         console.log(address);
         if (address.country != undefined){
           console.log(address.country);
+          country=address.country
           result += address.country+',';
           bodyFormData.append('country',address.country);
         }
         if (address.county != undefined){
           console.log(address.county);
+          county=address.county
           result+=address.county+',';
           bodyFormData.append('county',address.county);
         }
         if (address.neighbourhood != undefined){
           console.log(address.neighbourhood);
+          neighbourhood=address.neighbourhood
           result+=address.neighbourhood+','
           bodyFormData.append('neighbourhood',address.neighbourhood);
         }
         if (address.road != undefined){
           console.log(address.road);
+          road=address.road
           result+=address.road;
           bodyFormData.append('road',address.road);
         }
@@ -68,12 +72,12 @@ class MyMap extends Component<IDemoProps & GeolocatedProps> {
           method: 'put',  
           body: JSON.stringify(
             {
-              latitude:50,
-              longitude:50,
-              country:'none',
-              county:'None',
-              neighbourhood:'none',
-              road:'none'
+              latitude:latitude,
+              longitude:longitude,
+              country:country,
+              county:county,
+              neighbourhood:neighbourhood,
+              road:road
             }
           ),  
           headers:{
@@ -85,30 +89,30 @@ class MyMap extends Component<IDemoProps & GeolocatedProps> {
   }
   componentDidMount(){
     if(this.state.token_is_available){
-    var endPoint = 'https://api.opencagedata.com/geocode/v1/json?key=ceaef58b33f442e790f75f602065215a&q=35.6961%2C51.4231&pretty=1';
-    axios.get(endPoint)
-    .then(res=>{
-      var result='';
-      var address=res.data.results[0].components;
-      console.log(address);
-      if (address.country !== undefined){
-        console.log(address.country);
-        result += address.country+',';
-      }
-      if (address.county !== undefined){
-        console.log(address.county);
-        result+=address.county+',';
-      }
-      if (address.neighbourhood !== undefined){
-        console.log(address.neighbourhood);
-        result+=address.neighbourhood+','
-      }
-      if (address.road !== undefined){
-        console.log(address.road);
-        result+=address.road;
-      }
-      ReactDOM.findDOMNode(this.refs.nothing).innerHTML = result;
-    });
+    // var endPoint = 'https://api.opencagedata.com/geocode/v1/json?key=ceaef58b33f442e790f75f602065215a&q=35.6961%2C51.4231&pretty=1';
+    // axios.get(endPoint)
+    // .then(res=>{
+    //   var result='';
+    //   var address=res.data.results[0].components;
+    //   console.log(address);
+    //   if (address.country !== undefined){
+    //     console.log(address.country);
+    //     result += address.country+',';
+    //   }
+    //   if (address.county !== undefined){
+    //     console.log(address.county);
+    //     result+=address.county+',';
+    //   }
+    //   if (address.neighbourhood !== undefined){
+    //     console.log(address.neighbourhood);
+    //     result+=address.neighbourhood+','
+    //   }
+    //   if (address.road !== undefined){
+    //     console.log(address.road);
+    //     result+=address.road;
+    //   }
+    //   ReactDOM.findDOMNode(this.refs.nothing).innerHTML = result;
+    // });
 
     }
   }
@@ -125,7 +129,7 @@ class MyMap extends Component<IDemoProps & GeolocatedProps> {
     bodyFormData.append('password', this.state.password); 
     axios({
       method: 'post',
-      url: 'http://172.20.11.142:8000/api-token-auth/',
+      url: 'http://127.0.0.1:8000/api-token-auth/',
       data: bodyFormData,
       config: { headers: {'Content-Type': 'multipart/form-data' }}
       })
