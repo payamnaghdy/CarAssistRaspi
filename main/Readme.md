@@ -8,3 +8,5 @@ First add [dataset](https://drive.google.com/open?id=1Djo5AY-vw3Lc5BuybkSuCixBt-
 * imgaug
 ## Run
 ``` python3 pipeline.py ```
+## Thanks to
+[Eddie Forson](https://github.com/kenshiro-o/CarND-Traffic-Sign-Classifier-Project)
